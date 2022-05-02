@@ -1,0 +1,24 @@
+{
+  "name": "cisc-3140-lab4",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.18.1",
+    "md5": "^2.3.0",
+    "sqlite3": "^5.0.6"
+  },
+  "description": "Car database API",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrew-conte434/cisc-3140-lab4.git"
+  },
+  "author": "Andrew Conte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrew-conte434/cisc-3140-lab4/issues"
+  },
+  "homepage": "https://github.com/andrew-conte434/cisc-3140-lab4#readme"
+}
