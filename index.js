@@ -119,19 +119,15 @@ app.post("/api/car", (req, res, next) => {
   }
   
   console.log(scores)
-  let sql = `INSERT INTO data 
-            VALUES ('${req.body.Timestamp}', '${req.body.Email}', '${req.body.Name}',
+  let sql = `INSERT INTO data
+              VALUES ('${req.body.Timestamp}', '${req.body.Email}', '${req.body.Name}',
               '${req.body.Year}', '${req.body.Make}', '${req.body.Model}',
               '${req.body.Car_ID}', '${req.body.Judge_ID}', '${req.body.Judge_Name}',
-              '${scores[0]}', '${scores[1]}', '${scores[2]}','${scores[3]}', '${scores[4]}', '${scores[5]}'
-              '${scores[6]}', '${scores[7]}', '${scores[8]}','${scores[9]}', '${scores[9]}', '${scores[10]}',
-              '${scores[11]}', '${scores[12]}', '${scores[13]}', '${scores[14]}', '${scores[15]}', '${scores[16]}'
-              '${scores[17]}', '${scores[18]}', '${scores[19]}', '${scores[20]}', '${scores[21]}', '${scores[22]}',
-              '${scores[23]}', '${scores[24]}');
-              
-              INSERT INTO carData
-              VALUES ('${req.body.Car_ID}', '${req.body.Year}',' ${req.body.Make}',
-                      '${req.body.Model}', '${req.body.Name}', '${req.body.Email}');
+              '${scores[0]}', '${scores[1]}', '${scores[2]}','${scores[3]}', '${scores[4]}', '${scores[5]}',
+              '${scores[6]}', '${scores[7]}', '${scores[8]}','${scores[9]}', '${scores[10]}', '${scores[11]}',
+              '${scores[12]}', '${scores[13]}', '${scores[14]}', '${scores[15]}', '${scores[16]}', '${scores[17]}',
+              '${scores[18]}', '${scores[19]}', '${scores[20]}', '${scores[21]}', '${scores[22]}', '${scores[23]}',
+              '${scores[24]}');
 
               INSERT INTO car_scores
               VALUES ('${req.body.ID}', '${totalScore}');
