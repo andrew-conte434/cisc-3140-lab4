@@ -161,6 +161,10 @@ app.delete("/api/:id", (req, res, next) => {
   )
 })
 
+//delete all cars of a given make
+
+
+
 app.use(function(req, res) {
   res.status(404)
 })
