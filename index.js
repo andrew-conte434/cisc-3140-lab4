@@ -117,30 +117,73 @@ app.post("/api/car", (req, res, next) => {
   for(let i = 0; i < 25; i++){
     totalScore += scores[i]
   }
-  
-  console.log(scores)
-  let sql = `INSERT INTO data
-              VALUES ('${req.body.Timestamp}', '${req.body.Email}', '${req.body.Name}',
-              '${req.body.Year}', '${req.body.Make}', '${req.body.Model}',
-              '${req.body.Car_ID}', '${req.body.Judge_ID}', '${req.body.Judge_Name}',
-              '${scores[0]}', '${scores[1]}', '${scores[2]}','${scores[3]}', '${scores[4]}', '${scores[5]}',
-              '${scores[6]}', '${scores[7]}', '${scores[8]}','${scores[9]}', '${scores[10]}', '${scores[11]}',
-              '${scores[12]}', '${scores[13]}', '${scores[14]}', '${scores[15]}', '${scores[16]}', '${scores[17]}',
-              '${scores[18]}', '${scores[19]}', '${scores[20]}', '${scores[21]}', '${scores[22]}', '${scores[23]}',
-              '${scores[24]}');
 
-              INSERT INTO car_scores
-              VALUES ('${req.body.ID}', '${totalScore}');
-              `
-  let params = []
-  database.run(sql, params, (err, result) => {
+  console.log(scores)
+        
+  database.run(`INSERT INTO data
+      VALUES ('${req.body.Timestamp}', '${req.body.Email}', '${req.body.Name}',
+      '${req.body.Year}', '${req.body.Make}', '${req.body.Model}',
+      '${req.body.Car_ID}', '${req.body.Judge_ID}', '${req.body.Judge_Name}',
+      '${scores[0]}', '${scores[1]}', '${scores[2]}','${scores[3]}', '${scores[4]}', '${scores[5]}',
+      '${scores[6]}', '${scores[7]}', '${scores[8]}','${scores[9]}', '${scores[10]}', '${scores[11]}',
+      '${scores[12]}', '${scores[13]}', '${scores[14]}', '${scores[15]}', '${scores[16]}', '${scores[17]}',
+      '${scores[18]}', '${scores[19]}', '${scores[20]}', '${scores[21]}', '${scores[22]}', '${scores[23]}',
+      '${scores[24]}');`, (err, result) => {
     if(err){
       res.status(400).json({"err" : err.message})
       return
     }
-    res.json({"message" : `'${req.body.Make}' '${req.body.Model}' added to carData table`,
-              "ID" : req.body.ID
-            })
+  })
+
+  database.run(`INSERT INTO carData
+      VALUES ('${req.body.Car_ID}', '${req.body.Year}', '${req.body.Make}', '${req.body.Model}', 
+      '${req.body.Name}', '${req.body.Email}');`, (err, result) => {
+      if(err){
+        res.status(400).json({"err" : err.message})
+        return
+      }
+    })
+
+  database.run(`INSERT INTO car_scores
+      VALUES ('${req.body.ID}', '${totalScore}');`, (err, result) => {
+      if(err){
+        res.status(400).json({"err" : err.message})
+        return
+      } 
+      res.json({
+        message : `Added Car: ${req.body.Car_ID} to database`
+      })
+    })
+})
+
+//Update the owner of car
+app.put("/api/:id", (req, res, next) => {
+  let input = {
+    name : req.body.name,
+    email : req.body.email
+  }
+  database.run(`
+    UPDATE data 
+    SET
+      Name = COALESCE('${input.name}', Name),
+      Email = COALESCE('${input.email}', Email)
+    WHERE Car_ID = '${req.params.id}';
+
+    UPDATE data 
+    SET
+      Owner_Name = COALESCE('${input.name}', Owner_Name),
+      Owner_Email = COALESCE('${input.email}', Owner_Email)
+    WHERE ID = '${req.params.id}';`, 
+  function (err, result) {
+    if (err){
+        res.status(400).json({"error": res.message})
+        return
+    }
+    res.json({
+        message: "success",
+        data: input,
+        changes: this.changes
+    })
   })
 })
 
